@@ -1,0 +1,39 @@
+package com.webservice.cadastro_funcionarios.controllers;
+
+import com.webservice.cadastro_funcionarios.dtos.FuncionarioDto;
+import com.webservice.cadastro_funcionarios.models.Funcionario;
+import com.webservice.cadastro_funcionarios.services.FuncionarioService;
+import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+@RestController
+public class FuncionarioController {
+
+    final FuncionarioService funcionarioService;
+
+    public FuncionarioController(FuncionarioService funcionarioService) {
+        this.funcionarioService = funcionarioService;
+    }
+
+    @PostMapping("/funcionarios/cadastrar")
+    public ResponseEntity<Funcionario> CadastrarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
+
+        try {
+            var funcionario = new Funcionario();
+
+            BeanUtils.copyProperties(funcionarioDto, funcionario);
+
+            funcionarioService.CadastrarFuncionario(funcionario);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(funcionario);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+}
