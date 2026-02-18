@@ -4,6 +4,7 @@ import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Funcionario;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -16,6 +17,11 @@ public class FuncionarioService {
 
     @Transactional
     public void CadastrarFuncionario(Funcionario funcionario) {
+        funcionarioRepository.save(funcionario);
+    }
+
+    @Transactional
+    public void AtualizarFuncionario(Funcionario funcionario) {
         funcionarioRepository.save(funcionario);
     }
 }

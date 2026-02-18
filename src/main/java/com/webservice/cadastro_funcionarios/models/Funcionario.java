@@ -11,13 +11,28 @@ public class Funcionario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private UUID Id;
+
+    @Column(name = "nome")
     private String Nome;
+
+    @Column(name = "email")
     private String Email;
+
+    @Column(name = "documento")
     private String Documento;
+
+    @Column(name = "data_nascimento")
     private LocalDate DataNascimento;
+
+    @Column(name = "data_cadastro")
     private LocalDate DataCadastro = LocalDate.now();
+
+    @Column(name = "status")
     private Boolean Status;
+
+    @Column(name = "salario")
     private Float Salario;
 
     public Boolean getStatus() {
@@ -74,5 +89,13 @@ public class Funcionario implements Serializable {
 
     public void setSalario(Float salario) {
         Salario = salario;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 }
