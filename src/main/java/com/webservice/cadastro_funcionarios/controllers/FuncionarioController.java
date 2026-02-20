@@ -8,11 +8,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.List;
 
 @RestController
 public class FuncionarioController {
@@ -57,6 +55,17 @@ public class FuncionarioController {
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/funcionarios/listar-todos")
+    public ResponseEntity<List<Funcionario>> ListarFuncionarios() {
+
+        try {
+            var funcionarios = funcionarioRepository.findAll();
+            return ResponseEntity.status(HttpStatus.OK).body(funcionarios);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
