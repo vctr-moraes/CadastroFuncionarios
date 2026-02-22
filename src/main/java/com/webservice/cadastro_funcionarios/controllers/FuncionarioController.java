@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class FuncionarioController {
@@ -66,6 +67,39 @@ public class FuncionarioController {
         try {
             var funcionarios = funcionarioRepository.findAll();
             return ResponseEntity.status(HttpStatus.OK).body(funcionarios);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/funcionarios/excluir")
+    public ResponseEntity<Funcionario> ExcluirFuncionario(UUID funcionarioId) {
+
+        try {
+            var funcionarioExistente = funcionarioRepository.findById(funcionarioId).get();
+
+            if (funcionarioExistente == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            funcionarioService.ExcluirFuncionario(funcionarioExistente);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body((Funcionario)null);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/funcionarios/buscar-por-id/{funcionarioId}")
+    public ResponseEntity<Funcionario> ObterFuncionarioPorId(@PathVariable UUID funcionarioId) {
+
+        try {
+            var funcionario = funcionarioRepository.findById(funcionarioId).get();
+
+            if (funcionario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(funcionario);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

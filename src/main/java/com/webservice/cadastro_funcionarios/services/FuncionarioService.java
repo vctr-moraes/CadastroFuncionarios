@@ -24,4 +24,9 @@ public class FuncionarioService {
     public void AtualizarFuncionario(Funcionario funcionario) {
         funcionarioRepository.save(funcionario);
     }
+
+    @Transactional
+    public void ExcluirFuncionario(Funcionario funcionario) {
+        funcionarioRepository.delete(funcionario);
+    }
 }
