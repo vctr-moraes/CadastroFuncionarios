@@ -1,38 +1,37 @@
 package com.webservice.cadastro_funcionarios.models;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @Table(name = "Funcionarios")
-public class Funcionario implements Serializable {
+public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private UUID Id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false, length = 100)
     private String Nome;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = 100)
     private String Email;
 
-    @Column(name = "documento")
+    @Column(name = "documento", nullable = false, length = 20)
     private String Documento;
 
-    @Column(name = "data_nascimento")
+    @Column(name = "data_nascimento", nullable = false)
     private LocalDate DataNascimento;
 
-    @Column(name = "data_cadastro")
+    @Column(name = "data_cadastro", nullable = false)
     private LocalDate DataCadastro = LocalDate.now();
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Boolean Status;
 
-    @Column(name = "salario")
+    @Column(name = "salario", nullable = false)
     private Float Salario;
 
     public Boolean getStatus() {
