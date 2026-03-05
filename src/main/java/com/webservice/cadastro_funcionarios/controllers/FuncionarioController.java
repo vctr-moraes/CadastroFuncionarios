@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/funcionarios")
 public class FuncionarioController {
 
     final FuncionarioService funcionarioService;
@@ -25,7 +26,46 @@ public class FuncionarioController {
         this.funcionarioRepository = funcionarioRepository;
     }
 
-    @PostMapping("/funcionarios/cadastrar")
+    @GetMapping("/listar-todos")
+    public ResponseEntity<List<FuncionarioDto>> ListarFuncionarios() {
+
+        try {
+            var funcionarios = funcionarioRepository.findAll();
+
+            var funcionariosDto = funcionarios.stream().map(funcionario -> {
+                var funcionarioDto = new FuncionarioDto();
+                BeanUtils.copyProperties(funcionario, funcionarioDto);
+                return funcionarioDto;
+            }).collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(funcionariosDto);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/buscar-por-id/{funcionarioId}")
+    public ResponseEntity<FuncionarioDto> ObterFuncionarioPorId(@PathVariable UUID funcionarioId) {
+
+        try {
+            var funcionario = funcionarioRepository.findById(funcionarioId).orElse(null);
+
+            if (funcionario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            var funcionarioDto = new FuncionarioDto();
+            BeanUtils.copyProperties(funcionario, funcionarioDto);
+
+            return ResponseEntity.status(HttpStatus.OK).body(funcionarioDto);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping("/cadastrar")
     public ResponseEntity<FuncionarioDto> CadastrarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
 
         try {
@@ -42,7 +82,7 @@ public class FuncionarioController {
         }
     }
 
-    @PutMapping("/funcionarios/atualizar")
+    @PutMapping("/atualizar")
     public ResponseEntity<FuncionarioDto> AtualizarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
 
         try {
@@ -62,26 +102,7 @@ public class FuncionarioController {
         }
     }
 
-    @GetMapping("/funcionarios/listar-todos")
-    public ResponseEntity<List<FuncionarioDto>> ListarFuncionarios() {
-
-        try {
-            var funcionarios = funcionarioRepository.findAll();
-
-            var funcionariosDto = funcionarios.stream().map(funcionario -> {
-                var funcionarioDto = new FuncionarioDto();
-                BeanUtils.copyProperties(funcionario, funcionarioDto);
-                return funcionarioDto;
-            }).collect(Collectors.toList());
-
-            return ResponseEntity.status(HttpStatus.OK).body(funcionariosDto);
-
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
-    @DeleteMapping("/funcionarios/excluir")
+    @DeleteMapping("/excluir")
     public ResponseEntity<Funcionario> ExcluirFuncionario(UUID funcionarioId) {
 
         try {
@@ -94,26 +115,6 @@ public class FuncionarioController {
             funcionarioService.ExcluirFuncionario(funcionarioExistente);
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
-    @GetMapping("/funcionarios/buscar-por-id/{funcionarioId}")
-    public ResponseEntity<FuncionarioDto> ObterFuncionarioPorId(@PathVariable UUID funcionarioId) {
-
-        try {
-            var funcionario = funcionarioRepository.findById(funcionarioId).orElse(null);
-
-            if (funcionario == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-
-            var funcionarioDto = new FuncionarioDto();
-            BeanUtils.copyProperties(funcionario, funcionarioDto);
-
-            return ResponseEntity.status(HttpStatus.OK).body(funcionarioDto);
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

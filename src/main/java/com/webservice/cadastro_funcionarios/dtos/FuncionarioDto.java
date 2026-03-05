@@ -1,20 +1,38 @@
 package com.webservice.cadastro_funcionarios.dtos;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class FuncionarioDto {
 
+    @Id
     public UUID Id;
-    @NotBlank
+
+    @NotBlank(message = "O nome deve ser informado")
+    @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres")
     public String Nome;
-    @NotBlank
+
+    @NotBlank(message = "O email deve ser informado")
+    @Size(min = 5, max = 100, message = "O email deve ter entre 5 e 100 caracteres")
+    @Email(message = "O email deve ser válido")
     public String Email;
-    @NotBlank
+
+    @NotBlank(message = "O documento deve ser informado")
+    @Size(min = 5, max = 20, message = "O documento deve ter entre 5 e 20 caracteres")
     public String Documento;
+
+    @NotNull(message = "A data de nascimento deve ser informada")
+    @Past(message = "A data de nascimento deve ser anterior a data atual")
     public LocalDate DataNascimento;
+
+    @NotNull(message = "O status deve ser informado")
     public Boolean Status;
+
+    @NotNull(message = "O salário deve ser informado")
+    @DecimalMin(value = "1.0", message = "O salário deve ser maior ou igual a 1.0")
     public Float Salario;
 
     public UUID getId() {
