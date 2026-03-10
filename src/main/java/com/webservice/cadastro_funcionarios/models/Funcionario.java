@@ -97,4 +97,8 @@ public class Funcionario {
     public void setEmail(String email) {
         Email = email;
     }
+
+    public void reajustarSalario(Float percentualAjuste) {
+        this.Salario += this.Salario * (percentualAjuste / 100);
+    }
 }
