@@ -37,7 +37,7 @@ public class FuncionarioController {
             var funcionariosDto = funcionarios.stream().map(funcionario -> {
                 var funcionarioDto = new FuncionarioDto();
                 BeanUtils.copyProperties(funcionario, funcionarioDto);
-                funcionarioDto.setCargo(funcionario.getCargo().ordinal());
+                funcionarioDto.setCargo(funcionario.getCargo().name());
                 return funcionarioDto;
             }).collect(Collectors.toList());
 
@@ -61,7 +61,7 @@ public class FuncionarioController {
             var funcionarioDto = new FuncionarioDto();
 
             BeanUtils.copyProperties(funcionario, funcionarioDto);
-            funcionarioDto.setCargo(funcionario.getCargo().ordinal());
+            funcionarioDto.setCargo(funcionario.getCargo().name());
 
             return ResponseEntity.status(HttpStatus.OK).body(funcionarioDto);
 
@@ -77,7 +77,7 @@ public class FuncionarioController {
             var funcionario = new Funcionario();
 
             BeanUtils.copyProperties(funcionarioDto, funcionario);
-            funcionario.setCargo(Cargo.values()[funcionarioDto.getCargo()]);
+            funcionario.setCargo(Cargo.valueOf(funcionarioDto.getCargo()));
 
             funcionarioService.CadastrarFuncionario(funcionario);
 
@@ -99,7 +99,7 @@ public class FuncionarioController {
             }
 
             BeanUtils.copyProperties(funcionarioDto, funcionarioExistente);
-            funcionarioExistente.setCargo(Cargo.values()[funcionarioDto.getCargo()]);
+            funcionarioExistente.setCargo(Cargo.valueOf(funcionarioDto.getCargo()));
 
             funcionarioService.AtualizarFuncionario(funcionarioExistente);
 

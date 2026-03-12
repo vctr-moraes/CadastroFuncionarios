@@ -35,7 +35,7 @@ public class FuncionarioDto {
     public Float Salario;
 
     @NotNull(message = "O cargo deve ser informado")
-    public Integer Cargo;
+    public String Cargo;
 
     public UUID getId() {
         return Id;
@@ -93,11 +93,11 @@ public class FuncionarioDto {
         Salario = salario;
     }
 
-    public Integer getCargo() {
+    public String getCargo() {
         return Cargo;
     }
 
-    public void setCargo(Integer cargo) {
+    public void setCargo(String cargo) {
         this.Cargo = cargo;
     }
 }
