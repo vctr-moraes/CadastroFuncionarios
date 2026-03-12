@@ -8,6 +8,7 @@ Esta é uma simples aplicação web, escrita em Java, a qual implementa um CRUD,
 * Buscar funcionário por ID
 * Listar todos os funcionários
 * Excluir funcionário
+* Reajustar salário
 
 ### Tecnologias
 * Java 17

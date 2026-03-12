@@ -34,6 +34,10 @@ public class Funcionario {
     @Column(name = "salario", nullable = false)
     private Float Salario;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cargo", nullable = false, length = 20)
+    private Cargo Cargo;
+
     public Boolean getStatus() {
         return Status;
     }
@@ -96,6 +100,14 @@ public class Funcionario {
 
     public void setEmail(String email) {
         Email = email;
+    }
+
+    public Cargo getCargo() {
+        return Cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        Cargo = cargo;
     }
 
     public void reajustarSalario(Float percentualAjuste) {

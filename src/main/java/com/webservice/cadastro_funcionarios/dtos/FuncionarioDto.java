@@ -2,7 +2,6 @@ package com.webservice.cadastro_funcionarios.dtos;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -34,6 +33,9 @@ public class FuncionarioDto {
     @NotNull(message = "O salário deve ser informado")
     @DecimalMin(value = "1.0", message = "O salário deve ser maior ou igual a 1.0")
     public Float Salario;
+
+    @NotNull(message = "O cargo deve ser informado")
+    public Integer Cargo;
 
     public UUID getId() {
         return Id;
@@ -89,5 +91,13 @@ public class FuncionarioDto {
 
     public void setSalario(Float salario) {
         Salario = salario;
+    }
+
+    public Integer getCargo() {
+        return Cargo;
+    }
+
+    public void setCargo(Integer cargo) {
+        this.Cargo = cargo;
     }
 }

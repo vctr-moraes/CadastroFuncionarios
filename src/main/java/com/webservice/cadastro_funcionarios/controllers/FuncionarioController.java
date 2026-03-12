@@ -3,6 +3,7 @@ package com.webservice.cadastro_funcionarios.controllers;
 import com.webservice.cadastro_funcionarios.dtos.FuncionarioDto;
 import com.webservice.cadastro_funcionarios.dtos.ReajusteSalarioDto;
 import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
+import com.webservice.cadastro_funcionarios.models.Cargo;
 import com.webservice.cadastro_funcionarios.models.Funcionario;
 import com.webservice.cadastro_funcionarios.services.FuncionarioService;
 import jakarta.validation.Valid;
@@ -36,6 +37,7 @@ public class FuncionarioController {
             var funcionariosDto = funcionarios.stream().map(funcionario -> {
                 var funcionarioDto = new FuncionarioDto();
                 BeanUtils.copyProperties(funcionario, funcionarioDto);
+                funcionarioDto.setCargo(funcionario.getCargo().ordinal());
                 return funcionarioDto;
             }).collect(Collectors.toList());
 
@@ -57,7 +59,9 @@ public class FuncionarioController {
             }
 
             var funcionarioDto = new FuncionarioDto();
+
             BeanUtils.copyProperties(funcionario, funcionarioDto);
+            funcionarioDto.setCargo(funcionario.getCargo().ordinal());
 
             return ResponseEntity.status(HttpStatus.OK).body(funcionarioDto);
 
@@ -73,6 +77,7 @@ public class FuncionarioController {
             var funcionario = new Funcionario();
 
             BeanUtils.copyProperties(funcionarioDto, funcionario);
+            funcionario.setCargo(Cargo.values()[funcionarioDto.getCargo()]);
 
             funcionarioService.CadastrarFuncionario(funcionario);
 
@@ -94,6 +99,8 @@ public class FuncionarioController {
             }
 
             BeanUtils.copyProperties(funcionarioDto, funcionarioExistente);
+            funcionarioExistente.setCargo(Cargo.values()[funcionarioDto.getCargo()]);
+
             funcionarioService.AtualizarFuncionario(funcionarioExistente);
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
