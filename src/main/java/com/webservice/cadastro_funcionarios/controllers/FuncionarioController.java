@@ -1,6 +1,7 @@
 package com.webservice.cadastro_funcionarios.controllers;
 
 import com.webservice.cadastro_funcionarios.dtos.FuncionarioDto;
+import com.webservice.cadastro_funcionarios.dtos.ModificarCargoDto;
 import com.webservice.cadastro_funcionarios.dtos.ReajusteSalarioDto;
 import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Cargo;
@@ -140,6 +141,31 @@ public class FuncionarioController {
             }
 
             funcionario.reajustarSalario(reajusteSalarioDto.PercentualAjuste());
+
+            funcionarioService.AtualizarFuncionario(funcionario);
+
+            return ResponseEntity.status(HttpStatus.OK).body(funcionario);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping("/modificar-cargo")
+    public ResponseEntity<Funcionario> ModificarCargo(@RequestBody @Valid ModificarCargoDto modificarCargoDto) {
+
+        try {
+            var funcionario = funcionarioRepository.findById(modificarCargoDto.FuncionarioId()).orElse(null);
+
+            if (funcionario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            if (funcionario.getCargo().name().equals(modificarCargoDto.Cargo())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(funcionario);
+            }
+
+            funcionario.modificarCargo(Cargo.valueOf(modificarCargoDto.Cargo()));
 
             funcionarioService.AtualizarFuncionario(funcionario);
 

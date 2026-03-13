@@ -113,4 +113,8 @@ public class Funcionario {
     public void reajustarSalario(Float percentualAjuste) {
         this.Salario += this.Salario * (percentualAjuste / 100);
     }
+
+    public void modificarCargo(Cargo cargo) {
+        this.Cargo = cargo;
+    }
 }
