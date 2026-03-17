@@ -33,6 +33,10 @@ public class Endereco {
     @Column(name = "cep", nullable = false, length = 10)
     private String Cep;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "funcionario_id")
+    public Funcionario Funcionario;
+
     public UUID getId() {
         return Id;
     }
@@ -95,5 +99,13 @@ public class Endereco {
 
     public void setCep(String cep) {
         Cep = cep;
+    }
+
+    public Funcionario getFuncionario() {
+        return Funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        Funcionario = funcionario;
     }
 }

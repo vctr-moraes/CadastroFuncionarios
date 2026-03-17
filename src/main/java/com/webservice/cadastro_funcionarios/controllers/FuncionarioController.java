@@ -5,7 +5,9 @@ import com.webservice.cadastro_funcionarios.dtos.ModificarCargoDto;
 import com.webservice.cadastro_funcionarios.dtos.ReajusteSalarioDto;
 import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Cargo;
+import com.webservice.cadastro_funcionarios.models.Endereco;
 import com.webservice.cadastro_funcionarios.models.Funcionario;
+import com.webservice.cadastro_funcionarios.services.EnderecoService;
 import com.webservice.cadastro_funcionarios.services.FuncionarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -23,10 +25,14 @@ public class FuncionarioController {
 
     final FuncionarioService funcionarioService;
     final FuncionarioRepository funcionarioRepository;
+    final EnderecoService enderecoService;
 
-    public FuncionarioController(FuncionarioService funcionarioService, FuncionarioRepository funcionarioRepository) {
+    public FuncionarioController(FuncionarioService funcionarioService,
+                                 FuncionarioRepository funcionarioRepository,
+                                 EnderecoService enderecoService) {
         this.funcionarioService = funcionarioService;
         this.funcionarioRepository = funcionarioRepository;
+        this.enderecoService = enderecoService;
     }
 
     @GetMapping("/listar-todos")
@@ -76,11 +82,15 @@ public class FuncionarioController {
 
         try {
             var funcionario = new Funcionario();
-
             BeanUtils.copyProperties(funcionarioDto, funcionario);
             funcionario.setCargo(Cargo.valueOf(funcionarioDto.getCargo()));
 
+            var endereco = new Endereco();
+            BeanUtils.copyProperties(funcionarioDto.Endereco, endereco);
+            endereco.setFuncionario(funcionario);
+
             funcionarioService.CadastrarFuncionario(funcionario);
+            enderecoService.CadastrarEndereco(endereco);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(null);
 

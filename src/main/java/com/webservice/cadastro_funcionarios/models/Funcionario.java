@@ -38,6 +38,9 @@ public class Funcionario {
     @Column(name = "cargo", nullable = false, length = 20)
     private Cargo Cargo;
 
+    @OneToOne(mappedBy = "Funcionario")
+    public Endereco Endereco;
+
     public Boolean getStatus() {
         return Status;
     }

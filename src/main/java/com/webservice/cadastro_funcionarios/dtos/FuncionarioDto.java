@@ -37,6 +37,8 @@ public class FuncionarioDto {
     @NotNull(message = "O cargo deve ser informado")
     public String Cargo;
 
+    public EnderecoDto Endereco;
+
     public UUID getId() {
         return Id;
     }
