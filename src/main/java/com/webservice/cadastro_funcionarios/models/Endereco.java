@@ -1,9 +1,11 @@
 package com.webservice.cadastro_funcionarios.models;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Entity
+@Component
 @Table(name = "Enderecos")
 public class Endereco {
 

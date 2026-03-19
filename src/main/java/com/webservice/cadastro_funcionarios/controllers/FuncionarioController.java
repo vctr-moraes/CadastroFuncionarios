@@ -99,11 +99,11 @@ public class FuncionarioController {
         }
     }
 
-    @PutMapping("/atualizar")
-    public ResponseEntity<FuncionarioDto> AtualizarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
+    @PutMapping("/atualizar/{funcionarioId}")
+    public ResponseEntity<FuncionarioDto> AtualizarFuncionario(@PathVariable UUID funcionarioId, @RequestBody @Valid FuncionarioDto funcionarioDto) {
 
         try {
-            Funcionario funcionarioExistente = funcionarioRepository.findById(funcionarioDto.Id).orElse(null);
+            Funcionario funcionarioExistente = funcionarioRepository.findById(funcionarioId).orElse(null);
 
             if (funcionarioExistente == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -121,8 +121,8 @@ public class FuncionarioController {
         }
     }
 
-    @DeleteMapping("/excluir")
-    public ResponseEntity<Funcionario> ExcluirFuncionario(UUID funcionarioId) {
+    @DeleteMapping("/excluir/{funcionarioId}")
+    public ResponseEntity<Funcionario> ExcluirFuncionario(@PathVariable UUID funcionarioId) {
 
         try {
             var funcionarioExistente = funcionarioRepository.findById(funcionarioId).orElse(null);

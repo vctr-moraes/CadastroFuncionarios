@@ -1,10 +1,12 @@
 package com.webservice.cadastro_funcionarios.models;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Component
 @Table(name = "Funcionarios")
 public class Funcionario {
 
