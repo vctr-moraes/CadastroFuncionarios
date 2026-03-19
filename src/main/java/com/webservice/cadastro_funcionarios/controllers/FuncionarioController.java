@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
@@ -44,6 +47,7 @@ public class FuncionarioController {
             var funcionariosDto = funcionarios.stream().map(funcionario -> {
                 var funcionarioDto = new FuncionarioDto();
                 BeanUtils.copyProperties(funcionario, funcionarioDto);
+                funcionarioDto.Links.add(linkTo(methodOn(FuncionarioController.class).ObterFuncionarioPorId(funcionario.getId())).withSelfRel().getHref());
                 funcionarioDto.setCargo(funcionario.getCargo().name());
                 return funcionarioDto;
             }).collect(Collectors.toList());
@@ -68,6 +72,7 @@ public class FuncionarioController {
             var funcionarioDto = new FuncionarioDto();
 
             BeanUtils.copyProperties(funcionario, funcionarioDto);
+            funcionarioDto.Links.add(linkTo(methodOn(FuncionarioController.class).ListarFuncionarios()).withRel("funcionarios").getHref());
             funcionarioDto.setCargo(funcionario.getCargo().name());
 
             return ResponseEntity.status(HttpStatus.OK).body(funcionarioDto);

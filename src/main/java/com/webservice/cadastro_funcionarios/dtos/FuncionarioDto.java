@@ -3,6 +3,7 @@ package com.webservice.cadastro_funcionarios.dtos;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class FuncionarioDto {
@@ -38,6 +39,8 @@ public class FuncionarioDto {
     public String Cargo;
 
     public EnderecoDto Endereco;
+
+    public ArrayList<String> Links = new ArrayList<>();
 
     public UUID getId() {
         return Id;
