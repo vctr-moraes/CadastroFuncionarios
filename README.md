@@ -9,9 +9,11 @@ Esta é uma simples aplicação web, escrita em Java, a qual implementa um CRUD,
 * Listar todos os funcionários
 * Excluir funcionário
 * Reajustar salário
+* Modificar cargo
 
 ### Tecnologias
 * Java 17
 * Spring Boot 4.0.3
 * Maven
+* JUnit
 * PostgreSQL
