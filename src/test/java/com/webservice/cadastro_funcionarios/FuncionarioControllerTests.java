@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,6 +64,35 @@ class FuncionarioControllerTests {
 
 		// Assert
 		assertEquals(HttpStatus.OK, funcionarios.getStatusCode());
+		assertEquals(1, funcionarios.getBody().size());
+		verify(_funcionarioRepository, times(1)).findAll();
+	}
+
+	@Test
+	void NaoDeveRetornarFuncionariosQuandoNaoExistir() {
+
+		// Arrange
+		when(_funcionarioRepository.findAll()).thenReturn(List.of());
+
+		// Act
+		var funcionarios = _funcionarioController.ListarFuncionarios();
+
+		// Assert
+		assertEquals(HttpStatus.OK, funcionarios.getStatusCode());
+		assertEquals(0, funcionarios.getBody().size());
+		verify(_funcionarioRepository, times(1)).findAll();
+	}
+
+	@Test
+	void DeveRetornarExceptionQuandoListarFuncionarios() {
+
+		// Arrange
+		when(_funcionarioRepository.findAll()).thenThrow(new IllegalArgumentException());
+
+		// Act
+		RuntimeException exception = assertThrows(RuntimeException.class, ()  -> _funcionarioController.ListarFuncionarios());
+
+		// Assert
 		verify(_funcionarioRepository, times(1)).findAll();
 	}
 }
