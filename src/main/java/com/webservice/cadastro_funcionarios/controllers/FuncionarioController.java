@@ -89,7 +89,7 @@ public class FuncionarioController {
 
         } catch (Exception e) {
             logger.error("Erro ao consultar funcionário: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw e;
         }
     }
 

@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,17 +47,7 @@ class FuncionarioControllerTests {
 	void DeveRetornarFuncionariosQuandoExistirem() {
 
 		// Arrange
-		var funcionario = new Funcionario();
-		funcionario.setId(UUID.randomUUID());
-		funcionario.setNome("João");
-		funcionario.setEmail("joao@gmail.com");
-		funcionario.setDocumento("6G56SDFGH");
-		funcionario.setDataCadastro(LocalDate.now());
-		funcionario.setDataNascimento(LocalDate.EPOCH);
-		funcionario.setStatus(true);
-		funcionario.setSalario(1000f);
-		funcionario.setCargo(Cargo.ANALISTA);
-
+		var funcionario = CreateFuncionario();
 		when(_funcionarioRepository.findAll()).thenReturn(List.of(funcionario));
 
 		// Act
@@ -90,9 +81,70 @@ class FuncionarioControllerTests {
 		when(_funcionarioRepository.findAll()).thenThrow(new IllegalArgumentException());
 
 		// Act
-		RuntimeException exception = assertThrows(RuntimeException.class, ()  -> _funcionarioController.ListarFuncionarios());
+		assertThrows(RuntimeException.class, ()  -> _funcionarioController.ListarFuncionarios());
 
 		// Assert
 		verify(_funcionarioRepository, times(1)).findAll();
+	}
+
+	@Test
+	void DeveObterFuncionarioPorIdComSucesso() {
+
+		// Arrange
+		var funcionario = CreateFuncionario();
+		when(_funcionarioRepository.findById(funcionario.getId())).thenReturn(Optional.of(funcionario));
+
+		// Act
+		var result = _funcionarioController.ObterFuncionarioPorId(funcionario.getId());
+
+		// Assert
+		assertEquals(HttpStatus.OK, result.getStatusCode());
+		verify(_funcionarioRepository, times(1)).findById(funcionario.getId());
+	}
+
+	@Test
+	void DeveObterNotFoundAoBuscarFuncionarioPorId() {
+
+		// Arrange
+		var funcionarioId = UUID.randomUUID();
+		when(_funcionarioRepository.findById(funcionarioId)).thenReturn(Optional.empty());
+
+		// Act
+		var result = _funcionarioController.ObterFuncionarioPorId(funcionarioId);
+
+		// Assert
+		assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+		verify(_funcionarioRepository, times(1)).findById(funcionarioId);
+	}
+
+	@Test
+	void DeveRetornarExceptionQuandoObterFuncionarioPorId() {
+
+		// Arrange
+		var funcionarioId = UUID.randomUUID();
+		when(_funcionarioRepository.findById(funcionarioId)).thenThrow(new IllegalArgumentException());
+
+		// Act
+		assertThrows(RuntimeException.class, () -> _funcionarioController.ObterFuncionarioPorId(funcionarioId));
+
+		// Assert
+		verify(_funcionarioRepository, times(1)).findById(funcionarioId);
+	}
+
+	Funcionario CreateFuncionario() {
+
+		Funcionario funcionario = new Funcionario();
+
+		funcionario.setId(UUID.randomUUID());
+		funcionario.setNome("João");
+		funcionario.setEmail("joao@gmail.com");
+		funcionario.setDocumento("6G56SDFGH");
+		funcionario.setDataCadastro(LocalDate.now());
+		funcionario.setDataNascimento(LocalDate.EPOCH);
+		funcionario.setStatus(true);
+		funcionario.setSalario(1000f);
+		funcionario.setCargo(Cargo.ANALISTA);
+
+		return funcionario;
 	}
 }
