@@ -42,7 +42,7 @@ public class FuncionarioController {
         this.enderecoService = enderecoService;
     }
 
-    @GetMapping("/listar-todos")
+    @GetMapping
     public ResponseEntity<List<FuncionarioDto>> ListarFuncionarios() {
 
         try {
@@ -66,7 +66,7 @@ public class FuncionarioController {
         }
     }
 
-    @GetMapping("/buscar-por-id/{funcionarioId}")
+    @GetMapping("/{funcionarioId}")
     public ResponseEntity<FuncionarioDto> ObterFuncionarioPorId(@PathVariable UUID funcionarioId) {
 
         try {
@@ -93,7 +93,7 @@ public class FuncionarioController {
         }
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping
     public ResponseEntity<FuncionarioDto> CadastrarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
 
         try {
@@ -118,7 +118,7 @@ public class FuncionarioController {
         }
     }
 
-    @PutMapping("/atualizar/{funcionarioId}")
+    @PutMapping("/{funcionarioId}")
     public ResponseEntity<FuncionarioDto> AtualizarFuncionario(@PathVariable UUID funcionarioId, @RequestBody @Valid FuncionarioDto funcionarioDto) {
 
         try {
@@ -144,7 +144,7 @@ public class FuncionarioController {
         }
     }
 
-    @DeleteMapping("/excluir/{funcionarioId}")
+    @DeleteMapping("/{funcionarioId}")
     public ResponseEntity<Funcionario> ExcluirFuncionario(@PathVariable UUID funcionarioId) {
 
         try {
