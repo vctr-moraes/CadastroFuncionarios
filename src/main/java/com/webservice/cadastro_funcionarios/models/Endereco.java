@@ -1,11 +1,11 @@
 package com.webservice.cadastro_funcionarios.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Component
 @Table(name = "Enderecos")
 public class Endereco {
 

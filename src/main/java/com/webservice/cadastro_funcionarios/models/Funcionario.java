@@ -1,13 +1,13 @@
 package com.webservice.cadastro_funcionarios.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
-import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Component
 @Table(name = "Funcionarios")
 public class Funcionario extends RepresentationModel<Funcionario> {
 
