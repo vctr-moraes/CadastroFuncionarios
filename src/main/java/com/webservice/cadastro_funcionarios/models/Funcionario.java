@@ -11,6 +11,8 @@ import java.util.UUID;
 @Table(name = "Funcionarios")
 public class Funcionario extends RepresentationModel<Funcionario> {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
