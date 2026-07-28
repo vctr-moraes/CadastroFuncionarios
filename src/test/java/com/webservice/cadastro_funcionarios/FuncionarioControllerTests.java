@@ -4,8 +4,8 @@ import com.webservice.cadastro_funcionarios.controllers.FuncionarioController;
 import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Cargo;
 import com.webservice.cadastro_funcionarios.models.Funcionario;
-import com.webservice.cadastro_funcionarios.services.EnderecoService;
-import com.webservice.cadastro_funcionarios.services.FuncionarioService;
+import com.webservice.cadastro_funcionarios.services.impl.EnderecoServiceImpl;
+import com.webservice.cadastro_funcionarios.services.impl.FuncionarioServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,20 +27,20 @@ import static org.mockito.Mockito.*;
 class FuncionarioControllerTests {
 
 	@Mock
-	private FuncionarioService _funcionarioService;
+	private FuncionarioServiceImpl _funcionarioServiceImpl;
 	private FuncionarioRepository _funcionarioRepository;
-	private EnderecoService _enderecoService;
+	private EnderecoServiceImpl _enderecoServiceImpl;
 
 	@InjectMocks
 	private FuncionarioController _funcionarioController;
 
 	@BeforeEach
 	void setUp() {
-		_funcionarioService = Mockito.mock(FuncionarioService.class);
+		_funcionarioServiceImpl = Mockito.mock(FuncionarioServiceImpl.class);
 		_funcionarioRepository = Mockito.mock(FuncionarioRepository.class);
-		_enderecoService =  Mockito.mock(EnderecoService.class);
+		_enderecoServiceImpl =  Mockito.mock(EnderecoServiceImpl.class);
 
-		_funcionarioController = new FuncionarioController(_funcionarioService, _funcionarioRepository, _enderecoService);
+		_funcionarioController = new FuncionarioController(_funcionarioServiceImpl, _funcionarioRepository, _enderecoServiceImpl);
 	}
 
 	@Test

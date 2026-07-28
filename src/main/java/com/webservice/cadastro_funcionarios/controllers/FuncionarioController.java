@@ -122,7 +122,7 @@ public class FuncionarioController {
     public ResponseEntity<FuncionarioDto> AtualizarFuncionario(@PathVariable UUID funcionarioId, @RequestBody @Valid FuncionarioDto funcionarioDto) {
 
         try {
-            Funcionario funcionarioExistente = funcionarioRepository.findById(funcionarioId).orElse(null);
+            var funcionarioExistente = funcionarioRepository.findById(funcionarioId).orElse(null);
 
             if (funcionarioExistente == null) {
                 logger.info("Funcionário não localizado.");
