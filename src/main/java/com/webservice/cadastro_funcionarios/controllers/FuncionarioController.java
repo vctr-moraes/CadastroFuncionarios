@@ -44,7 +44,6 @@ public class FuncionarioController {
 
     @GetMapping
     public ResponseEntity<List<FuncionarioDto>> ListarFuncionarios() {
-
         try {
             var funcionarios = funcionarioRepository.findAll();
 
@@ -67,8 +66,7 @@ public class FuncionarioController {
     }
 
     @GetMapping("/{funcionarioId}")
-    public ResponseEntity<FuncionarioDto> ObterFuncionarioPorId(@PathVariable UUID funcionarioId) {
-
+    public ResponseEntity<Object> ObterFuncionarioPorId(@PathVariable UUID funcionarioId) {
         try {
             var funcionario = funcionarioRepository.findById(funcionarioId).orElse(null);
 
@@ -94,8 +92,7 @@ public class FuncionarioController {
     }
 
     @PostMapping
-    public ResponseEntity<FuncionarioDto> CadastrarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
-
+    public ResponseEntity<Object> CadastrarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
         try {
             var funcionario = new Funcionario();
             BeanUtils.copyProperties(funcionarioDto, funcionario);
@@ -110,7 +107,7 @@ public class FuncionarioController {
 
             logger.info("Funcionário cadastrado com sucesso.");
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(null);
+            return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioDto);
 
         } catch (Exception e) {
             logger.error("Erro ao cadastrar funcionário: ", e);
@@ -119,7 +116,8 @@ public class FuncionarioController {
     }
 
     @PutMapping("/{funcionarioId}")
-    public ResponseEntity<FuncionarioDto> AtualizarFuncionario(@PathVariable UUID funcionarioId, @RequestBody @Valid FuncionarioDto funcionarioDto) {
+    public ResponseEntity<Object> AtualizarFuncionario(@PathVariable UUID funcionarioId,
+                                                       @RequestBody @Valid FuncionarioDto funcionarioDto) {
 
         try {
             var funcionarioExistente = funcionarioRepository.findById(funcionarioId).orElse(null);
@@ -136,7 +134,7 @@ public class FuncionarioController {
 
             logger.info("Funcionário atualizado com sucesso.");
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(funcionarioExistente);
 
         } catch (Exception e) {
             logger.error("Erro ao atualizar funcionário: ", e);
@@ -145,8 +143,7 @@ public class FuncionarioController {
     }
 
     @DeleteMapping("/{funcionarioId}")
-    public ResponseEntity<Funcionario> ExcluirFuncionario(@PathVariable UUID funcionarioId) {
-
+    public ResponseEntity<Object> ExcluirFuncionario(@PathVariable UUID funcionarioId) {
         try {
             var funcionarioExistente = funcionarioRepository.findById(funcionarioId).orElse(null);
 
@@ -159,7 +156,7 @@ public class FuncionarioController {
 
             logger.info("Funcionário excluído com sucesso.");
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Funcionário excluído com sucesso.");
 
         } catch (Exception e) {
             logger.error("Erro ao excluir funcionário: ", e);
@@ -168,8 +165,7 @@ public class FuncionarioController {
     }
 
     @PostMapping("/reajustar-salario")
-    public ResponseEntity<Funcionario> ReajustarSalario(@RequestBody @Valid ReajusteSalarioDto reajusteSalarioDto) {
-
+    public ResponseEntity<Object> ReajustarSalario(@RequestBody @Valid ReajusteSalarioDto reajusteSalarioDto) {
         try {
             var funcionario = funcionarioRepository.findById(reajusteSalarioDto.FuncionarioId()).orElse(null);
 
@@ -184,7 +180,7 @@ public class FuncionarioController {
 
             logger.info("Salário do funcionário reajustado com sucesso.");
 
-            return ResponseEntity.status(HttpStatus.OK).body(funcionario);
+            return ResponseEntity.status(HttpStatus.OK).body("Salário do funcionário reajustado com sucesso.");
 
         } catch (Exception e) {
             logger.error("Erro ao reajustar salário do funcionário: ", e);
@@ -193,8 +189,7 @@ public class FuncionarioController {
     }
 
     @PostMapping("/modificar-cargo")
-    public ResponseEntity<Funcionario> ModificarCargo(@RequestBody @Valid ModificarCargoDto modificarCargoDto) {
-
+    public ResponseEntity<Object> ModificarCargo(@RequestBody @Valid ModificarCargoDto modificarCargoDto) {
         try {
             var funcionario = funcionarioRepository.findById(modificarCargoDto.FuncionarioId()).orElse(null);
 
@@ -205,7 +200,7 @@ public class FuncionarioController {
 
             if (funcionario.getCargo().name().equals(modificarCargoDto.Cargo())) {
                 logger.info("O cargo informado já é o atual do funcionário.");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(funcionario);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O cargo informado já é o atual do funcionário.");
             }
 
             funcionario.modificarCargo(Cargo.valueOf(modificarCargoDto.Cargo()));
@@ -214,7 +209,7 @@ public class FuncionarioController {
 
             logger.info("Cargo do funcionário modificado com sucesso.");
 
-            return ResponseEntity.status(HttpStatus.OK).body(funcionario);
+            return ResponseEntity.status(HttpStatus.OK).body("Cargo do funcionário modificado com sucesso.");
 
         } catch (Exception e) {
             logger.error("Erro ao modificar cargo do funcionário: ", e);
