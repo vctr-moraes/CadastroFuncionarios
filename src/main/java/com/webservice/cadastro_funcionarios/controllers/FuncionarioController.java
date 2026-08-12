@@ -3,6 +3,7 @@ package com.webservice.cadastro_funcionarios.controllers;
 import com.webservice.cadastro_funcionarios.dtos.FuncionarioDto;
 import com.webservice.cadastro_funcionarios.dtos.ModificarCargoDto;
 import com.webservice.cadastro_funcionarios.dtos.ReajusteSalarioDto;
+import com.webservice.cadastro_funcionarios.exceptions.NotFoundException;
 import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Cargo;
 import com.webservice.cadastro_funcionarios.models.Endereco;
@@ -72,7 +73,7 @@ public class FuncionarioController {
 
             if (funcionario == null) {
                 logger.info("Funcionário não localizado.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                throw new NotFoundException("Funcionário não localizado.");
             }
 
             var funcionarioDto = new FuncionarioDto();
@@ -124,7 +125,7 @@ public class FuncionarioController {
 
             if (funcionarioExistente == null) {
                 logger.info("Funcionário não localizado.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                throw new NotFoundException("Funcionário não localizado.");
             }
 
             BeanUtils.copyProperties(funcionarioDto, funcionarioExistente);
@@ -138,7 +139,7 @@ public class FuncionarioController {
 
         } catch (Exception e) {
             logger.error("Erro ao atualizar funcionário: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw e;
         }
     }
 
@@ -149,7 +150,7 @@ public class FuncionarioController {
 
             if (funcionarioExistente == null) {
                 logger.info("Funcionário não localizado.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                throw new NotFoundException("Funcionário não localizado.");
             }
 
             funcionarioService.ExcluirFuncionario(funcionarioExistente);
@@ -160,7 +161,7 @@ public class FuncionarioController {
 
         } catch (Exception e) {
             logger.error("Erro ao excluir funcionário: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw e;
         }
     }
 
@@ -171,7 +172,7 @@ public class FuncionarioController {
 
             if (funcionario == null) {
                 logger.info("Funcionário não localizado.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                throw new NotFoundException("Funcionário não localizado.");
             }
 
             funcionario.reajustarSalario(reajusteSalarioDto.PercentualAjuste());
@@ -184,7 +185,7 @@ public class FuncionarioController {
 
         } catch (Exception e) {
             logger.error("Erro ao reajustar salário do funcionário: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw e;
         }
     }
 
@@ -195,7 +196,7 @@ public class FuncionarioController {
 
             if (funcionario == null) {
                 logger.info("Funcionário não localizado.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                throw new NotFoundException("Funcionário não localizado.");
             }
 
             if (funcionario.getCargo().name().equals(modificarCargoDto.Cargo())) {
@@ -213,7 +214,7 @@ public class FuncionarioController {
 
         } catch (Exception e) {
             logger.error("Erro ao modificar cargo do funcionário: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw e;
         }
     }
 }
