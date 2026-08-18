@@ -1,9 +1,8 @@
 package com.webservice.cadastro_funcionarios.services.impl;
 
-import com.webservice.cadastro_funcionarios.interfaces.EnderecoRepository;
+import com.webservice.cadastro_funcionarios.repositories.EnderecoRepository;
 import com.webservice.cadastro_funcionarios.models.Endereco;
 import com.webservice.cadastro_funcionarios.services.EnderecoService;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -4,7 +4,7 @@ import com.webservice.cadastro_funcionarios.dtos.FuncionarioDto;
 import com.webservice.cadastro_funcionarios.dtos.ModificarCargoDto;
 import com.webservice.cadastro_funcionarios.dtos.ReajusteSalarioDto;
 import com.webservice.cadastro_funcionarios.exceptions.NotFoundException;
-import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
+import com.webservice.cadastro_funcionarios.repositories.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Cargo;
 import com.webservice.cadastro_funcionarios.models.Endereco;
 import com.webservice.cadastro_funcionarios.models.Funcionario;

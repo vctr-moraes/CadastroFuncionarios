@@ -1,4 +1,4 @@
-package com.webservice.cadastro_funcionarios.interfaces;
+package com.webservice.cadastro_funcionarios.repositories;
 
 import com.webservice.cadastro_funcionarios.models.Funcionario;
 import org.springframework.data.jpa.repository.JpaRepository;

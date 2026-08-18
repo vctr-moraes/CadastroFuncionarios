@@ -2,7 +2,7 @@ package com.webservice.cadastro_funcionarios.services.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
+import com.webservice.cadastro_funcionarios.repositories.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Funcionario;
 import com.webservice.cadastro_funcionarios.services.FuncionarioService;
 
@@ -27,7 +27,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         funcionarioRepository.save(funcionario);
     }
 
-   @Transactional
+    @Transactional
     @Override
     public void ExcluirFuncionario(Funcionario funcionario) {
         funcionarioRepository.delete(funcionario);

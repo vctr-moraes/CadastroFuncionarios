@@ -1,7 +1,7 @@
 package com.webservice.cadastro_funcionarios;
 
 import com.webservice.cadastro_funcionarios.controllers.FuncionarioController;
-import com.webservice.cadastro_funcionarios.interfaces.FuncionarioRepository;
+import com.webservice.cadastro_funcionarios.repositories.FuncionarioRepository;
 import com.webservice.cadastro_funcionarios.models.Cargo;
 import com.webservice.cadastro_funcionarios.models.Funcionario;
 import com.webservice.cadastro_funcionarios.services.impl.EnderecoServiceImpl;
